@@ -1,0 +1,49 @@
+# ASP.NET Core
+
+**/bin/
+**/obj/
+**/wwwroot/
+
+# Visual Studio files
+**/.vs/
+**/*.suo
+**/*.user
+**/*.userosscache
+**/*.sln.docstates
+
+# Resharper
+**/_resharper/
+
+# Build results
+**/[Bb]uild/
+
+# NuGet Packages
+**/*.nupkg
+**/packages/
+!**/packages/repositories.config
+
+# React
+
+# Node dependencies
+**/node_modules/
+
+# Build output
+**/build/
+
+# Compiled files
+**/*.js
+**/*.css
+**/*.map
+
+# Development files
+**/*.log
+**/*.lock
+**/*.env
+**/*.env.local
+**/*.env.development.local
+**/*.env.test.local
+**/*.env.production.local
+
+# Editor files
+**/.vscode/
+**/.idea/

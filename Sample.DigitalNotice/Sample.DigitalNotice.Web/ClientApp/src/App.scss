@@ -1,0 +1,319 @@
+$submit-color: #114374;
+$add-color: #0f660f;
+$edit-color: #9c8200;
+$remove-color: #8b220f;
+
+$form-box-width: 25em;
+
+.App {
+  text-align: center;
+}
+
+h1,
+h2,
+h3 {
+  text-align: center;
+}
+
+.map-head,
+.diary-head {
+  display: block;
+  background-color: #1e2127;
+  padding: 1em;
+
+  input {
+    background-color: #23262d;
+    border: 0;
+    outline: none;
+    color: #c0c0c0;
+    width: -webkit-fill-available;
+    padding: 0.5em 0.5em 0.5em 1em;
+    border-radius: 0.5em;
+    margin: 0.5em 0;
+  }
+
+  textarea {
+    background-color: #23262d;
+    border: 0;
+    outline: none;
+    color: #c0c0c0;
+    padding: 0.5em 0.5em 0.5em 1em;
+    border-radius: 0.5em;
+    min-width: -webkit-fill-available;
+    max-width: -webkit-fill-available;
+    min-height: 3em;
+    max-height: 10em;
+  }
+}
+
+.map-card,
+.diary-card {
+  background-color: #282c34;
+  margin: 0.5em 1em;
+  padding: 1em;
+  border-radius: 1em;
+
+  p {
+    margin: 0.25em 0;
+  }
+
+  a {
+    color: #c0c0c0;
+    text-decoration: none;
+    transition: 0.5s;
+  }
+
+  a:hover {
+    color: $submit-color;
+  }
+}
+
+@mixin card($background-color, $input-background-color, $text-color) {
+  background-color: $background-color;
+  margin: 0.5em;
+  padding: 1em;
+  border-radius: 1em;
+
+  p {
+    margin: 0.25em 0;
+    text-align: justify;
+  }
+
+  .note-card {
+    min-width: -webkit-fill-available;
+    max-width: -webkit-fill-available;
+  }
+
+  input {
+    background-color: $input-background-color;
+    border: 0;
+    outline: none;
+    color: $text-color;
+    width: max-content;
+    padding: 0.5em 0.5em 0.5em 1em;
+    border-radius: 0.5em;
+  }
+
+  textarea {
+    background-color: $input-background-color;
+    border: 0;
+    outline: none;
+    color: $text-color;
+    padding: 0.5em 0.5em 0.5em 1em;
+    border-radius: 0.5em;
+    min-width: -webkit-fill-available;
+    max-width: -webkit-fill-available;
+    min-height: 3em;
+    max-height: 10em;
+  }
+
+  .title-block {
+    display: flex;
+    width: -webkit-fill-available;
+    justify-content: space-between;
+    padding: 0.5em 0;
+
+    .actions-block {
+      display: flex;
+      width: max-content;
+    }
+
+    h3 {
+      text-align: left;
+      margin: 0;
+    }
+  }
+}
+
+.template-item-card {
+  @include card(#23262d, #1e2127, #c0c0c0);
+}
+
+.note-card {
+  @include card(#282c34, #23262d, #c0c0c0);
+}
+
+.note-group-block {
+  border: 0.1em solid #282c34;
+  border-radius: 0.5em;
+  margin: 0.5em 0;
+  padding: 0.5em;
+
+  > .title-block {
+    display: flex;
+    width: -webkit-fill-available;
+    justify-content: space-between;
+    padding: 0.5em 0;
+
+    input {
+      background-color: #282c34;
+      border: 0;
+      outline: none;
+      color: #c0c0c0;
+      width: max-content;
+      padding: 0.5em 0.5em 0.5em 1em;
+      border-radius: 0.5em;
+    }
+
+    .actions-block {
+      display: flex;
+      width: max-content;
+    }
+
+    h3 {
+      text-align: left;
+      margin: 0;
+    }
+  }
+}
+
+.notes-list,
+.map-content {
+  > .add {
+    margin: 0.5em 1em;
+    width: -webkit-fill-available;
+  }
+}
+
+.note-group-block > .add {
+  margin: 0.5em 0;
+  width: -webkit-fill-available;
+}
+
+table {
+  margin: 0 auto;
+  border-spacing: 0.25em;
+}
+
+th {
+  padding: 0.5em 1em;
+  background: #282c34;
+  font-size: 1em;
+  min-width: 20em;
+  max-width: 40em;
+}
+
+td {
+  background-color: transparent;
+  padding: 0;
+  vertical-align: baseline;
+  font-size: 1em;
+  min-width: 20em;
+  max-width: 40em;
+}
+
+@mixin button($back-color: $submit-color) {
+  text-decoration: none;
+  padding: 0.25em 0.5em;
+  margin: 0.1em 0.1em;
+  display: inline-block;
+  color: #fff;
+  cursor: pointer;
+  transition: ease-in-out;
+  border: 1px solid transparent;
+  border-radius: 0.25em;
+  background-color: $back-color;
+  font-size: 1em;
+}
+
+.submit {
+  @include button($submit-color);
+}
+
+.add {
+  @include button($add-color);
+}
+
+.edit {
+  @include button($edit-color);
+}
+
+.remove {
+  @include button($remove-color);
+}
+
+nav {
+  display: flex;
+
+  > a {
+    text-decoration: none;
+    color: #c5c5c5;
+    padding: 0 0.4em;
+  }
+}
+
+.header-menu-title {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.App-logo {
+  height: 4em;
+  pointer-events: none;
+}
+
+.App-link {
+  text-decoration: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.form-box {
+  width: $form-box-width;
+
+  form {
+    padding: 0.5em;
+  }
+
+  input:not([type='checkbox']),
+  textarea,
+  select {
+    background-color: #282c34;
+  }
+
+  input,
+  textarea,
+  select {
+    outline: none;
+  }
+
+  input:not([type='checkbox']),
+  textarea,
+  select,
+  button {
+    color: #bfbfbf;
+    display: inline-block;
+    border: 1px solid transparent;
+    border-radius: 0.25em;
+    font-size: 1em;
+    padding: 0.25em 0.5em;
+    margin-top: 0.5em;
+    max-width: -webkit-fill-available;
+    min-width: -webkit-fill-available;
+  }
+
+  textarea {
+    min-height: 5rem;
+    max-height: 20rem;
+  }
+}

@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  sample-digitalnotice-web:
+    image: ${DOCKER_REGISTRY-}sampledigitalnoticeweb
+    build:
+      context: .
+      dockerfile: Sample.DigitalNotice.Web/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - "80"
+      - "443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  sample-digital-notice-database-server:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=#*&gdy7i2376ET#G65dfe6T#@65&T#@TF^ed653625FT32frdef5
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data:/data/db
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus/config:/etc/prometheus
+      - ./prometheus/data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    volumes:
+      - ./grafana/data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=secret
+
+  elasticsearch:
+    image: elasticsearch
+    ports:
+      - 9200:9200
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - ./elasticsearch/data:/usr/share/elasticsearch/data
+
+  kibana:
+    image: kibana
+    ports:
+      - 5601:5601
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200

@@ -11,9 +11,13 @@
     <SpaProxyServerUrl>https://localhost:44488</SpaProxyServerUrl>
     <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.MongoDb" Version="6.0.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
+    <PackageReference Include="prometheus-net.AspNetCore" Version="8.0.1" />
 	<PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
 	<PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
@@ -21,7 +25,9 @@
   </ItemGroup>
 
   <PropertyGroup>
-	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <UserSecretsId>d9c59223-a1d0-45fd-9174-69797172a93d</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,6 +41,10 @@
     <ProjectReference Include="..\Sample.DigitalNotice.Bll\Sample.DigitalNotice.Bll.csproj" />
     <ProjectReference Include="..\Sample.DigitalNotice.Common\Sample.DigitalNotice.Common.csproj" />
     <ProjectReference Include="..\Sample.DigitalNotice.Di\Sample.DigitalNotice.Di.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Sample.DigitalNotice.IntegrationTests" />
   </ItemGroup>
 	
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

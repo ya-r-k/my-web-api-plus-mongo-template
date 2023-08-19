@@ -5,6 +5,8 @@ using Serilog;
 using System.Reflection;
 using Serilog.Events;
 using Serilog.Sinks.Elasticsearch;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,15 +19,24 @@ builder.Logging.AddSerilog(new LoggerConfiguration()
     .MinimumLevel.Override("System", LogEventLevel.Information)
     .WriteTo.Console(outputTemplate:
         "[{Timestamp:yyyy-MM-dd HH:mm:ss}] {ThreadId}] ({Level:u3}) {RequestPath} {StatusCode} {StatusCodeDescription} {Elapsed:0.000}ms {Message:lj}{NewLine}{Exception}")
-    .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day, outputTemplate:
-        "[{Timestamp:yyyy-MM-dd HH:mm:ss}] ({Level:u3}) {RequestPath} {StatusCode} {StatusCodeDescription} {Elapsed:0.000}ms {Message:lj}{NewLine}{Exception}")
-    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://localhost:9200"))
+    .WriteTo.File("C:/Logs/Samples/DigitalNoticeMongo/log-.txt", 
+        rollingInterval: RollingInterval.Day, 
+        outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss}] ({Level:u3}) {RequestPath} {StatusCode} {StatusCodeDescription} {Elapsed:0.000}ms {Message:lj}{NewLine}{Exception}")
+    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://elasticsearch:9200"))
     {
         AutoRegisterTemplate = true,
         AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7,
         IndexFormat = $"sample-digital-notice-{{0:yyyy.MM.dd}}",
     })
     .CreateLogger());
+
+// Configure response caching
+builder.Services.AddResponseCaching();
+
+// Configure Health Checks
+builder.Services.AddHealthChecks()
+    .AddMongoDb(builder.Configuration["MongoDbSettings:ConnectionString"], timeout: TimeSpan.FromSeconds(5))
+    .AddCheck("example", () => HealthCheckResult.Healthy("Example check is healthy"), new[] { "example" });
 
 // Add services to the container.
 
@@ -69,8 +80,17 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseSerilogRequestLogging();
+
 app.UseHttpsRedirection();
+
+// Configure Prometheus
+app.UseMetricServer();
+app.UseHttpMetrics();
+
 app.UseStaticFiles();
+app.UseResponseCaching();
+
 app.UseRouting();
 
 app.UseEndpoints(endpoints =>
@@ -78,6 +98,9 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllerRoute(
         name: "default",
         pattern: "{controller}/{action=Index}/{id?}");
+
+    endpoints.MapMetrics();
+    endpoints.MapHealthChecks("/health");
 });
 
 app.MapFallbackToFile("index.html");

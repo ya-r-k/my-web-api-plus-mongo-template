@@ -15,14 +15,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(new LoggerConfiguration()
     .Enrich.FromLogContext()
+    .Enrich.WithProcessId()
+    .Enrich.WithThreadId()
+    .Enrich.WithEnvironmentName()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
     .MinimumLevel.Override("System", LogEventLevel.Information)
     .WriteTo.Console(outputTemplate:
-        "[{Timestamp:yyyy-MM-dd HH:mm:ss}] {ThreadId}] ({Level:u3}) {RequestPath} {StatusCode} {StatusCodeDescription} {Elapsed:0.000}ms {Message:lj}{NewLine}{Exception}")
-    .WriteTo.File("C:/Logs/Samples/DigitalNoticeMongo/log-.txt", 
-        rollingInterval: RollingInterval.Day, 
-        outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss}] ({Level:u3}) {RequestPath} {StatusCode} {StatusCodeDescription} {Elapsed:0.000}ms {Message:lj}{NewLine}{Exception}")
-    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://elasticsearch:9200"))
+        "{Timestamp:yyyy-MM-dd HH:mm:ss} {EnvironmentName} [{Level:u3}] (Process: {ProcessId}, Thread: {ThreadId}) {RequestPath} {StatusCode} {StatusCodeDescription} {Elapsed:0.000}ms {Message:lj}{NewLine}{Exception}")
+    .WriteTo.File("C:/Logs/Samples/DigitalNoticeMongo/log-.txt",
+        rollingInterval: RollingInterval.Day,
+        outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} {EnvironmentName} [{Level:u3}] {RequestPath} {StatusCode} {StatusCodeDescription} {Elapsed:0.000}ms {Message:lj}{NewLine}{Exception}")
+    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(builder.Configuration["AnalyticsServiceOptions:Default:ConnectionString"]))
     {
         AutoRegisterTemplate = true,
         AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7,
@@ -35,12 +38,12 @@ builder.Services.AddResponseCaching();
 
 // Configure Health Checks
 builder.Services.AddHealthChecks()
-    .AddMongoDb(builder.Configuration["MongoDbSettings:ConnectionString"], timeout: TimeSpan.FromSeconds(5))
+    .AddMongoDb(builder.Configuration["DatabaseConnectionOptions:Default:ConnectionString"], timeout: TimeSpan.FromSeconds(5))
     .AddCheck("example", () => HealthCheckResult.Healthy("Example check is healthy"), new[] { "example" });
 
 // Add services to the container.
 
-builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection(nameof(MongoDbSettings)));
+builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("DatabaseConnectionOptions:Default"));
 builder.Services.AddControllersWithViews();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -80,7 +83,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseSerilogRequestLogging();
+//app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 

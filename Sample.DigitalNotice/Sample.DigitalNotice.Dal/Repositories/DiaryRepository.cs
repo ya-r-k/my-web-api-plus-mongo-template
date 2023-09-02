@@ -58,7 +58,7 @@ public class DiaryRepository : IDiaryRepository
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<Diary>> GetByPage(GetByPageRequestModel model)
+    public async Task<IEnumerable<Diary>> GetByPage(GetByPageQueryModel model)
     {
         var filter = Builders<Diary>.Filter.Empty;
 

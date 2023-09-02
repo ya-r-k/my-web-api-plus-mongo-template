@@ -9,7 +9,7 @@ using Sample.DigitalNotice.Common.Enums;
 namespace Sample.DigitalNotice.Dal.Repositories;
 
 /// <summary>
-/// 
+/// Implementation of <see cref="IMapRepository"/>
 /// </summary>
 public class MapRepository : IMapRepository
 {
@@ -18,9 +18,9 @@ public class MapRepository : IMapRepository
     private readonly IMongoCollection<Map> maps;
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="MapRepository"/> class
     /// </summary>
-    /// <param name="options"></param>
+    /// <param name="options">MongoDB settions options.</param>
     public MapRepository(IOptions<MongoDbSettings> options)
     {
         var mongoClient = new MongoClient(options.Value.ConnectionString);
@@ -58,7 +58,7 @@ public class MapRepository : IMapRepository
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<Map>> GetByPage(GetByPageRequestModel model)
+    public async Task<IEnumerable<Map>> GetByPage(GetByPageQueryModel model)
     {
         var filter = Builders<Map>.Filter.Empty;
 

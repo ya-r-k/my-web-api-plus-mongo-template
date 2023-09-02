@@ -26,7 +26,7 @@ public interface IMapService
     /// 
     /// </summary>
     /// <returns></returns>
-    Task<IEnumerable<Map>> GetByPage(GetByPageRequestModel model);
+    Task<IEnumerable<Map>> GetByPage(GetByPageQueryModel model);
 
     /// <summary>
     /// 

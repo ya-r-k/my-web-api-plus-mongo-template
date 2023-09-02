@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "source", "source", "{3D3B81
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7853B2B8-CD98-469E-949D-5CDF17D2E641}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.DigitalNotice.IntegrationTests", "Sample.DigitalNotice.IntegrationTests\Sample.DigitalNotice.IntegrationTests.csproj", "{FDC5C2C8-3E88-497B-B61E-21D547383601}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.DigitalNotice.IntegrationTests", "Sample.DigitalNotice.IntegrationTests\Sample.DigitalNotice.IntegrationTests.csproj", "{FDC5C2C8-3E88-497B-B61E-21D547383601}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{B9F927E2-9471-4416-9B55-3730CA70DF52}"
 EndProject

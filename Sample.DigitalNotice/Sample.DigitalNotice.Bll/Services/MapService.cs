@@ -34,7 +34,7 @@ public class MapService : IMapService
     }
 
     /// <inheritdoc />
-    public Task<IEnumerable<Map>> GetByPage(GetByPageRequestModel model)
+    public Task<IEnumerable<Map>> GetByPage(GetByPageQueryModel model)
     {
         return mapRepository.GetByPage(model);
     }

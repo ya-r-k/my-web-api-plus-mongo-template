@@ -26,7 +26,7 @@ public interface IDiaryRepository
     /// 
     /// </summary>
     /// <returns></returns>
-    Task<IEnumerable<Diary>> GetByPage(GetByPageRequestModel model);
+    Task<IEnumerable<Diary>> GetByPage(GetByPageQueryModel model);
 
     /// <summary>
     /// 

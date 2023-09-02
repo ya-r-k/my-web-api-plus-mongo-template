@@ -8,8 +8,8 @@ namespace Sample.DigitalNotice.IntegrationTests;
 
 internal class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
-    private const string ConnectionStringKey = "MongoDbSettings:ConnectionString";
-    private const string DatabaseNameKey = "MongoDbSettings:DatabaseName";
+    private const string ConnectionStringKey = "DatabaseConnectionOptions:Default:ConnectionString";
+    private const string DatabaseNameKey = "DatabaseConnectionOptions:Default:DatabaseName";
     private const string ConnectionStringValue = "mongodb://localhost:27017";
     private const string DatabaseNameValue = "DigitalNoticeDbTest";
 

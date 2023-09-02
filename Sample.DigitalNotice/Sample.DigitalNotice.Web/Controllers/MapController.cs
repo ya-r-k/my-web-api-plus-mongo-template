@@ -70,7 +70,7 @@ public class MapController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Map>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetByPage(GetByPageRequestModel model)
+    public async Task<IActionResult> GetByPage([FromQuery] GetByPageQueryModel model)
     {
         return Ok(await mapService.GetByPage(model));
     }

@@ -7,6 +7,7 @@ using Serilog.Events;
 using Serilog.Sinks.Elasticsearch;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Prometheus;
+using System.Security.Cryptography.X509Certificates;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,35 @@ builder.Logging.AddSerilog(new LoggerConfiguration()
         IndexFormat = $"sample-digital-notice-{{0:yyyy.MM.dd}}",
     })
     .CreateLogger());
+
+builder.WebHost.ConfigureKestrel((context, serverOptions) =>
+{
+    serverOptions.ListenAnyIP(443, listenOptions =>
+    {
+        listenOptions.UseHttps(httpsOptions =>
+        {
+            var localhostCert = new X509Certificate2("/root/.aspnet/https/sample-digitalnotice-https-local.pfx", "JF(E@&$g78367GF7dtt23^@7eGydet^Ey7etd75eTQ5t");
+            //var remoteCert = new X509Certificate2("/root/.aspnet/https/sample-digitalnotice-https-remote.pfx", "JF(E@&$g78367GF7dtt23^@7eGydet^Ey7etd75eTQ5t");
+
+            var certs = new Dictionary<string, X509Certificate2>(
+                StringComparer.OrdinalIgnoreCase)
+            {
+                ["localhost"] = localhostCert,
+                //["sample-digitalnotice"] = remoteCert,
+            };
+
+            httpsOptions.ServerCertificateSelector = (connectionContext, name) =>
+            {
+                if (name is not null && certs.TryGetValue(name, out var cert))
+                {
+                    return cert;
+                }
+
+                return localhostCert;
+            };
+        });
+    });
+});
 
 // Configure response caching
 builder.Services.AddResponseCaching();

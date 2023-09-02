@@ -4,6 +4,13 @@
 **/obj/
 **/wwwroot/
 
+# Dependencies
+
+**/prometheus
+**/elasticsearch
+**/data
+**/grafana
+
 # Visual Studio files
 **/.vs/
 **/*.suo

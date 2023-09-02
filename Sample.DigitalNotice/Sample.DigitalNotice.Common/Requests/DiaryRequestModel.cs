@@ -12,6 +12,7 @@ public class DiaryRequestModel
     /// <summary>
     /// Diary name.
     /// </summary>
+    [Required]
     [StringLength(100)]
     public string Name { get; set; }
 

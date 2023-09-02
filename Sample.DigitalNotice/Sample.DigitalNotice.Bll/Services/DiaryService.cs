@@ -34,7 +34,7 @@ public class DiaryService : IDiaryService
     }
 
     /// <inheritdoc />
-    public Task<IEnumerable<Diary>> GetByPage(GetByPageRequestModel model)
+    public Task<IEnumerable<Diary>> GetByPage(GetByPageQueryModel model)
     {
         return diaryRepository.GetByPage(model);
     }

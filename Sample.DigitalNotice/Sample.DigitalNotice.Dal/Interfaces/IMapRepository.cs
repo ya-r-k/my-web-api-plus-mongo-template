@@ -27,7 +27,7 @@ public interface IMapRepository
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
-    Task<IEnumerable<Map>> GetByPage(GetByPageRequestModel model);
+    Task<IEnumerable<Map>> GetByPage(GetByPageQueryModel model);
 
     /// <summary>
     /// 

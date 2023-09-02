@@ -16,7 +16,7 @@ public class DiaryController : ControllerBase
     private readonly IDiaryService diaryService;
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="DiaryController"/> class.
     /// </summary>
     /// <param name="diaryService"></param>
     public DiaryController(IDiaryService diaryService)
@@ -70,7 +70,7 @@ public class DiaryController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Diary>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetByPage(GetByPageRequestModel model)
+    public async Task<IActionResult> GetByPage([FromQuery] GetByPageQueryModel model)
     {
         return Ok(await diaryService.GetByPage(model));
     }

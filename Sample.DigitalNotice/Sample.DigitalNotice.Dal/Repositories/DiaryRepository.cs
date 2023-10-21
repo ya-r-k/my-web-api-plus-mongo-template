@@ -10,7 +10,7 @@ using Sample.DigitalNotice.Common.Enums;
 namespace Sample.DigitalNotice.Dal.Repositories;
 
 /// <summary>
-/// 
+/// Represents the implementation of a <see cref="IDiaryRepository"/>.
 /// </summary>
 public class DiaryRepository : IDiaryRepository
 {
@@ -19,9 +19,9 @@ public class DiaryRepository : IDiaryRepository
     private readonly IMongoCollection<Diary> diaries;
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="DiaryRepository"/> class.
     /// </summary>
-    /// <param name="options"></param>
+    /// <param name="options">MongoDB settings options.</param>
     public DiaryRepository(IOptions<MongoDbSettings> options)
     {
         var mongoClient = new MongoClient(options.Value.ConnectionString);

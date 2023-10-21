@@ -10,6 +10,7 @@
 **/elasticsearch
 **/data
 **/grafana
+**/logs
 
 # Visual Studio files
 **/.vs/

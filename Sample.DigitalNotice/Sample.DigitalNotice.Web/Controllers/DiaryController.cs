@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Sample.DigitalNotice.Web.Controllers;
 
 /// <summary>
-/// Provides diaries endpoints.
+/// Represents API endpoints for managing diaries.
 /// </summary>
 [ApiController]
 [Route("api/diaries")]
@@ -18,28 +18,31 @@ public class DiaryController : ControllerBase
     /// <summary>
     /// Initializes a new instance of the <see cref="DiaryController"/> class.
     /// </summary>
-    /// <param name="diaryService"></param>
+    /// <param name="diaryService">The diary service.</param>
     public DiaryController(IDiaryService diaryService)
     {
         this.diaryService = diaryService;
     }
 
     /// <summary>
-    /// Creates a Diary.
+    /// Creates a new diary with the provided details.
     /// </summary>
-    /// <param name="request">Create diary model.</param>
+    /// <param name="request">The model containing the details of the diary to be created.</param>
     /// <remarks>
+    /// This endpoint handles the logic to create a new diary based on the provided request model.
+    /// The request should include the name and description of the diary.
+    ///
     /// Sample request:
     ///
-    ///     POST /diaries
-    ///     {
-    ///        "name": "New diary",
-    ///        "description": "Description about new diary"
-    ///     }
-    ///
+    /// POST /diaries
+    /// {
+    ///    "name": "New diary",
+    ///    "description": "Description about new diary"
+    /// }
     /// </remarks>
-    /// <response code="201">Returns the newly created diary</response>
-    /// <response code="400">If the request is not valid</response>
+    /// <response code="201">Returns the newly created diary.</response>
+    /// <response code="400">If the request is not valid.</response>
+    /// <response code="500">If an internal server error occurs.</response>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -57,15 +60,19 @@ public class DiaryController : ControllerBase
     }
 
     /// <summary>
-    /// Returns collection of diaries.
+    /// Returns a collection of diaries.
     /// </summary>
     /// <remarks>
+    /// This endpoint retrieves a collection of diaries.
+    /// 
     /// Sample request:
-    ///
-    ///     GET /diaries
-    ///
+    /// 
+    /// GET /diaries
+    /// 
     /// </remarks>
-    /// <response code="200">Returns collection of diaries</response>
+    /// <response code="200">Returns a collection of diaries.</response>
+    /// <response code="400">If the request is not valid.</response>
+    /// <response code="500">If an internal server error occurs.</response>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Diary>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -76,12 +83,21 @@ public class DiaryController : ControllerBase
     }
 
     /// <summary>
-    /// Returns diary by id.
+    /// Returns a diary by ID.
     /// </summary>
-    /// <param name="diaryId">Diary id.</param>
-    /// <response code="200">Returns collection of diaries.</response>
+    /// <param name="diaryId">The ID of the diary.</param>
+    /// <remarks>
+    /// This endpoint retrieves a diary based on the provided ID.
+    /// 
+    /// Sample request:
+    /// 
+    /// GET /diaries/{diaryId}
+    /// 
+    /// </remarks>
+    /// <response code="200">Returns the diary with the specified ID.</response>
     /// <response code="400">If the request is not valid.</response>
-    /// <response code="404">If diary not found.</response>
+    /// <response code="404">If the diary is not found.</response>
+    /// <response code="500">If an internal server error occurs.</response>
     [HttpGet("{diaryId}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Diary))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -105,13 +121,26 @@ public class DiaryController : ControllerBase
     }
 
     /// <summary>
-    /// Updates diary.
+    /// Updates a diary.
     /// </summary>
-    /// <param name="diaryId"></param>
-    /// <param name="request">Update diary request</param>
-    /// <response code="204">If diary updated successfully.</response>
+    /// <param name="diaryId">The ID of the diary.</param>
+    /// <param name="request">The update diary request.</param>
+    /// <remarks>
+    /// This endpoint updates a diary based on the provided ID and request.
+    /// 
+    /// Sample request:
+    /// 
+    /// PUT /diaries/{diaryId}
+    /// {
+    ///    "name": "Updated diary",
+    ///    "description": "Updated description of the diary"
+    /// }
+    /// 
+    /// </remarks>
+    /// <response code="204">If the diary is updated successfully.</response>
     /// <response code="400">If the request is not valid.</response>
-    /// <response code="404">If diary not found.</response>
+    /// <response code="404">If the diary is not found.</response>
+    /// <response code="500">If an internal server error occurs.</response>
     [HttpPut("{diaryId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -133,12 +162,21 @@ public class DiaryController : ControllerBase
     }
 
     /// <summary>
-    /// Deletes diary.
+    /// Deletes a diary.
     /// </summary>
-    /// <param name="diaryId"></param>
-    /// <response code="204">If diary deleted successfully.</response>
+    /// <param name="diaryId">The ID of the diary to delete.</param>
+    /// <remarks>
+    /// This endpoint deletes a diary based on the provided ID.
+    /// 
+    /// Sample request:
+    /// 
+    /// DELETE /diaries/{diaryId}
+    /// 
+    /// </remarks>
+    /// <response code="204">If the diary is deleted successfully.</response>
     /// <response code="400">If the request is not valid.</response>
-    /// <response code="404">If diary not found.</response>
+    /// <response code="404">If the diary is not found.</response>
+    /// <response code="500">If an internal server error occurs.</response>
     [HttpDelete("{diaryId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

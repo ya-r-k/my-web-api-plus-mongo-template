@@ -6,16 +6,16 @@ using Sample.DigitalNotice.Dal.Interfaces.Repositories;
 namespace Sample.DigitalNotice.Bll.Services;
 
 /// <summary>
-/// 
+/// Represents the implementation of the map service.
 /// </summary>
 public class MapService : IMapService
 {
     private readonly IMapRepository mapRepository;
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="MapService"/> class.
     /// </summary>
-    /// <param name="mapRepository"></param>
+    /// <param name="mapRepository">The map repository.</param>
     public MapService(IMapRepository mapRepository)
     {
         this.mapRepository = mapRepository;

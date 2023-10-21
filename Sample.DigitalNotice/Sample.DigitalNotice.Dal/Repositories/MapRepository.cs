@@ -9,7 +9,7 @@ using Sample.DigitalNotice.Common.Enums;
 namespace Sample.DigitalNotice.Dal.Repositories;
 
 /// <summary>
-/// Implementation of <see cref="IMapRepository"/>
+/// Represents the implementation of a <see cref="IMapRepository"/>
 /// </summary>
 public class MapRepository : IMapRepository
 {
@@ -20,7 +20,7 @@ public class MapRepository : IMapRepository
     /// <summary>
     /// Initializes a new instance of the <see cref="MapRepository"/> class
     /// </summary>
-    /// <param name="options">MongoDB settions options.</param>
+    /// <param name="options">MongoDB settings options.</param>
     public MapRepository(IOptions<MongoDbSettings> options)
     {
         var mongoClient = new MongoClient(options.Value.ConnectionString);

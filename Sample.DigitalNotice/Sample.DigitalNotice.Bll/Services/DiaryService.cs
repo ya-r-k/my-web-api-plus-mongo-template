@@ -6,16 +6,16 @@ using Sample.DigitalNotice.Dal.Interfaces.Repositories;
 namespace Sample.DigitalNotice.Bll.Services;
 
 /// <summary>
-/// 
+/// Represents the implementation of the diary service.
 /// </summary>
 public class DiaryService : IDiaryService
 {
     private readonly IDiaryRepository diaryRepository;
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="DiaryService"/> class.
     /// </summary>
-    /// <param name="diaryRepository"></param>
+    /// <param name="diaryRepository">The diary repository.</param>
     public DiaryService(IDiaryRepository diaryRepository)
     {
         this.diaryRepository = diaryRepository;

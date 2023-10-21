@@ -5,37 +5,37 @@ using System.ComponentModel.DataAnnotations;
 namespace Sample.DigitalNotice.Common.Requests;
 
 /// <summary>
-/// Create diary model.
+/// Represents a diary model.
 /// </summary>
 public class DiaryRequestModel
 {
     /// <summary>
-    /// Diary name.
+    /// Gets or sets the name of the diary.
     /// </summary>
     [Required]
     [StringLength(100)]
     public string Name { get; set; }
 
     /// <summary>
-    /// Diary description.
+    /// Gets or sets the description of the diary.
     /// </summary>
     [StringLength(int.MaxValue)]
     public string Description { get; set; }
 
     /// <summary>
-    /// Notice status.
+    /// Gets or sets the status of the diary.
     /// </summary>
     [EnumDataType(typeof(NoticeStatus))]
     public NoticeStatus? Status { get; set; }
 
     /// <summary>
-    /// Notice type.
+    /// Gets or sets the type of the diary.
     /// </summary>
     [EnumDataType(typeof(NoticeType))]
     public NoticeType? Type { get; set; }
 
     /// <summary>
-    /// Diary notes collection.
+    /// Gets or sets the collection of notes within the diary.
     /// </summary>
     [MinLength(0)]
     public IEnumerable<Note> Notes { get; set; }

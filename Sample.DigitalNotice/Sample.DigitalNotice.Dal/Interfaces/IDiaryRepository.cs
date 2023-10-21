@@ -4,7 +4,7 @@ using Sample.DigitalNotice.Common.Requests;
 namespace Sample.DigitalNotice.Dal.Interfaces.Repositories;
 
 /// <summary>
-/// 
+/// Repository class for managing diaries.
 /// </summary>
 public interface IDiaryRepository
 {

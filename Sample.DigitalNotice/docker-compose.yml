@@ -1,66 +1,68 @@
 version: '3.8'
 
 services:
-  sample-digitalnotice:
-    image: ${DOCKER_REGISTRY-}sampledigitalnotice
+  sample.digitalnotice:
+    image: ${DOCKER_REGISTRY-}sample.digitalnotice
     build:
       context: .
       dockerfile: Sample.DigitalNotice.Web/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
+      - Serilog__WriteTo__2__Args__nodeUris=http://elasticsearchserver:9200
     ports:
-      - "5084:80"
-      - "7299:443"
+      - '5084:80'
+      - '7299:443'
     volumes:
+      - ../logs:/logs/samples/digitalnoticemongo
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
-  sample-digital-notice-database-server:
+  sample.mongodb.databaseserver:
     image: mongo
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=#*&gdy7i2376ET#G65dfe6T#@65&T#@TF^ed653625FT32frdef5
+      - MONGO_INITDB_ROOT_PASSWORD=gdy7i2376ETG65dfe6T65TFed653625FT32frdef5
+    command: [--auth]
     ports:
       - 27017:27017
     volumes:
       - ../data:/data/db
 
-  prometheus-server:
-    image: prom/prometheus
-    ports:
-      - 9090:9090
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      - ../prometheus/config:/etc/prometheus
-      - ../prometheus/data:/prometheus
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
+  # prometheusserver:
+  #   image: prom/prometheus
+  #   ports:
+  #     - 9090:9090
+  #   volumes:
+  #     - ./prometheus.yml:/etc/prometheus/prometheus.yml
+  #     - ../prometheus/config:/etc/prometheus
+  #     - ../prometheus/data:/prometheus
+  #   command:
+  #     - '--config.file=/etc/prometheus/prometheus.yml'
 
-  grafana-server:
-    image: grafana/grafana
-    ports:
-      - 3000:3000
-    volumes:
-      - ../grafana/data:/var/lib/grafana
-      - ../grafana/provisioning:/etc/grafana/provisioning
-    environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-      
-#  elasticsearch-server:
-#    image: elasticsearch:7.15.1
-#    ports:
-#      - 9200:9200
-#    environment:
-#      - discovery.type=single-node
-#    volumes:
-#      - ../elasticsearch/data:/usr/share/elasticsearch/data
-#
-#  kibana-server:
-#    image: kibana:7.15.1
-#    ports:
-#      - 5601:5601
-#    environment:
-#      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-      
+  # grafanaserver:
+  #   image: grafana/grafana
+  #   ports:
+  #     - 3000:3000
+  #   volumes:
+  #     - ../grafana/data:/var/lib/grafana
+  #     - ../grafana/provisioning:/etc/grafana/provisioning
+  #   environment:
+  #     - GF_SECURITY_ADMIN_USER=admin
+  #     - GF_SECURITY_ADMIN_PASSWORD=admin
+
+  # elasticsearchserver:
+  #   image: elasticsearch:7.15.1
+  #   ports:
+  #     - 9200:9200
+  #   environment:
+  #     - discovery.type=single-node
+  #   volumes:
+  #     - ../elasticsearch/data:/usr/share/elasticsearch/data
+
+  # kibanaserver:
+  #   image: kibana:7.15.1
+  #   ports:
+  #     - 5601:5601
+  #   environment:
+  #     - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
